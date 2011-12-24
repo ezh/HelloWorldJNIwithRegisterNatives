@@ -1,0 +1,30 @@
+# Build the Bindj for Linux.
+# Expects CLASSPATH to be set appropriately for running, and JAVA_HOME
+# to be passed in so we can find the tools.
+
+OBJDIR = target/obj
+SODIR = target/so
+SRCDIR = src/main/c
+
+INCLUDE = -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux \
+	-I${JAVA_HOME}/../include -I${JAVA_HOME}/../include/linux
+
+C_OBJ = $(OBJDIR)/HelloWorldJNIwithRegisterNatives.o
+C_SRC = $(SRCDIR)/HelloWorldJNIwithRegisterNatives.c
+C_SO = $(SODIR)/libHelloWorldJNIwithRegisterNatives.so
+
+.PHONY: all
+all: $(C_SO)
+
+$(C_SO): $(C_OBJ) $(SODIR)
+	gcc -fPIC -shared -o $@ $(C_OBJ)
+$(C_OBJ): $(C_SRC) $(HEADERS) $(OBJDIR)
+	gcc -fPIC -c -O -o $@ $(INCLUDE) $(C_SRC)
+
+$(OBJDIR):
+	mkdir $(OBJDIR)
+$(SODIR):
+	mkdir $(SODIR)
+
+clean:
+	rm -rf $(C_OBJ) $(C_SO)

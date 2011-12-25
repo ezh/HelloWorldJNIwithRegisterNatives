@@ -1,10 +1,10 @@
 #include "HelloWorldJNIwithRegisterNatives.h"
 
-JNIEXPORT jstring JNICALL hello(JNIEnv * env, jobject obj) {
+jstring JNICALL hello(JNIEnv * env, jobject obj) {
   return (*env)->NewStringUTF(env, "Hello World!");
 }
 
-JNIEXPORT jint JNICALL add(JNIEnv * env, jobject obj, jint value1, jint value2) {
+jint JNICALL add(JNIEnv * env, jobject obj, jint value1, jint value2) {
   return (value1 + value2);
 }
 
